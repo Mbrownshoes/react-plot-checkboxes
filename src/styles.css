@@ -1,0 +1,20 @@
+.App {
+    font-family: sans-serif;
+    text-align: center;
+  }
+  
+  /* You can style the .plot class as you see fit! Default styles at */
+  /* https://github.com/observablehq/plot/blob/main/src/style.css */
+  /* .plot {
+    display: block;
+    font: 10px system-ui, sans-serif;
+    background: white;
+    height: auto;
+    height: intrinsic;
+    max-width: 100%;
+  }
+  
+  .plot text {
+    white-space: pre;
+  } */
+  

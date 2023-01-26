@@ -1,23 +1,28 @@
-import logo from './logo.svg';
-import './App.css';
+import "./styles.css";
+import MyPlot from "./myPlot"
+import * as d3 from "d3";
+
+import { useRef, useEffect, useState } from "react";
+
 
 function App() {
+  const [data, setData] = useState();
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    d3.csv("/ubcSSf2DWaveFields30m.csv", d3.autoType).then(d => {
+      setData(d);
+      setLoading(false);
+    });
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Plot in React (with input!)</h1>
+      {loading && <div>loading</div>}
+      {!loading && <MyPlot
+        data={data}
+      />}
     </div>
   );
 }
