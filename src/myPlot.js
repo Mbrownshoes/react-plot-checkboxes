@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, Component } from "react";
 import * as Plot from "@observablehq/plot";
 import { Dropdown, Selection } from 'react-dropdown-now';
 import 'react-dropdown-now/style.css';
+import { Checkboxes } from "./checkboxes";
 
 
 
@@ -9,6 +10,16 @@ function MyPlot({ data }) {
     const allVars = ["ucur", "vcur", "uwnd", "vwnd", "hs", "lm", "t02", "fp", "dir", "dp", "wcc", "wch", "utwo", "vtwo", "foc", "uuss", "ß"]
 
     const ref = useRef(); // create DOM node to chart
+    const [selectedVars, setSelectedVars] = useState(allVars);
+
+
+    const onCheckChange = (changedIndex) => {
+    const newSelectedVars = selectedVars.map((value, i) =>
+        i === changedIndex ? (selectedVars[i] ? false : allVars[i]) : value
+    );
+    setSelectedVars(newSelectedVars);
+    };
+
 
     const [optionValue, setOptionValue] = useState("wch");
     const handleSelect = (e) => {
@@ -20,7 +31,7 @@ function MyPlot({ data }) {
     useEffect(() => { //replace DOM contents with useEffect
 
         const dotPlot = Plot.dot(
-            data,//.filter((d) => selectedCodes.includes(d.status_code)),
+            data.filter((d) => selectedVars.includes(d.wch)),
             {
                 x: "time",
                 y: optionValue,
@@ -39,20 +50,14 @@ function MyPlot({ data }) {
 
     return (
         <div>
-            <Dropdown
-                placeholder="Select an option"
-                className="my-className"
-                options={allVars}
-                value="wch"
-                onChange={(value) => handleSelect(value)}
-                onSelect={(value) => console.log('selected!', value)} // always fires once a selection happens even if there is no change
-                onClose={(closedBySelection) => console.log('closedBySelection?:', closedBySelection)}
-                onOpen={() => console.log('open!')}
-            />
-
-            <div ref={ref}></div>
+          <Checkboxes
+            title="Status code"
+            onChange={onCheckChange}
+            options={allVars}
+          />
+          <div ref={ref}></div>
         </div>
-    );
+      );
 }
 
 
