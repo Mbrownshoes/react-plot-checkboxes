@@ -12,8 +12,8 @@ function MyPlot({ data }) {
 
     const [optionValue, setOptionValue] = useState("wch");
     const handleSelect = (e) => {
-        console.log(e)
-        console.log(e.value);
+        // console.log(e)
+        // console.log(e.value);
         setOptionValue(e.value);
     };
 
@@ -22,7 +22,7 @@ function MyPlot({ data }) {
         const dotPlot = Plot.dot(
             data,//.filter((d) => selectedCodes.includes(d.status_code)),
             {
-                x: "time",
+                x: "date",
                 y: optionValue,
                 fill: 'steelblue',
                 fillOpacity: 0.5,

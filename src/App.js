@@ -10,8 +10,16 @@ function App() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    d3.csv("/ubcSSf2DWaveFields30m.csv", d3.autoType).then(d => {
-      setData(d);
+    const offset = new Date().getTimezoneOffset();
+
+    d3.csv("/ubcSSf2DWaveFields30m.csv", d3.autoType).then(dataRaw => {
+      return dataRaw.map(d => {
+        d.date = new Date(d.time.getTime() - offset*60*1000)
+      return d})
+
+    }).then(dataout => {
+      console.log(dataout)
+      setData(dataout);
       setLoading(false);
     });
   }, []);
