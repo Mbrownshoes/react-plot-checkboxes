@@ -2,15 +2,16 @@ import * as Plot from "@observablehq/plot";
 import { useRef, useEffect, useState, Component } from "react";
 
 
-function LineChart({ width, height,data, inputVar, unit }) {
+function LineChart({ width, height,data, inputVar }) {
+    console.log(inputVar)
     const ref = useRef();
     useEffect(() => { //replace DOM contents with useEffect
 
         const dotPlot = Plot.dot(
             data,
             {
-                x: "time",
-                y: "variable",
+                x: "datetime",
+                y: "value",
                 fill: 'steelblue',
                 fillOpacity: 0.5,
        
@@ -22,7 +23,7 @@ function LineChart({ width, height,data, inputVar, unit }) {
             marginLeft: 50,
 
             y:{
-                label: inputVar + " " + unit
+                label: inputVar.variable
             }
         });
         ref.current.append(dotPlot);
