@@ -6,7 +6,7 @@ import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
 
 export function RadioButtonsGroup({options, onChange}) {
-  console.log(options)
+  // console.log(options)
   return (
     <FormControl>
       <FormLabel id="demo-radio-buttons-group-label">Variables</FormLabel>

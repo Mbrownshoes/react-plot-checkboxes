@@ -3,7 +3,7 @@ import { useRef, useEffect, useState, Component } from "react";
 
 
 function LineChart({ width, height,data, inputVar }) {
-    console.log(inputVar)
+    // console.log(inputVar)
     const ref = useRef();
     useEffect(() => { //replace DOM contents with useEffect
 
