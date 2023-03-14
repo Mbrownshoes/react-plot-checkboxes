@@ -2,8 +2,11 @@ import * as Plot from "@observablehq/plot";
 import { useRef, useEffect, useState, Component } from "react";
 import * as d3 from "d3";
 
-function WindChart({ width, height, data, inputVar }) {
-    // console.log(inputVar)
+function WindChart({ width, height, data, playLine, inputVar }) {
+    const scrubberData = data.filter(d => +d.date === playLine)
+    const playDate = Array.isArray(playLine) ? [] : new Date(playLine)
+    const playLineString = Array.isArray(playDate) ? [] : playDate.getFullYear() + "" + ('0' + (playDate.getMonth() + 1)).slice(-2) + "" + ('0' + (playDate.getDate() )).slice(-2)+ "_" +  ('0' + (playDate.getHours())).slice(-2)
+    // console.log(new Date(playLine), playLineString);
     const ref = useRef();
     useEffect(() => { //replace DOM contents with useEffect
         const dotPlot =
@@ -18,25 +21,25 @@ function WindChart({ width, height, data, inputVar }) {
                 },
                 x: { label: null },
                 marks: [
-                    // Plot.dot(scrubberData, {
-                    //     x: "rawdate",
-                    //     y: "speed",
-                    //     stroke: "white",
-                    //     fill: "currentColor",
-                    //     dy: -2
-                    // }),
-                    // Plot.ruleX([i], {
-                    //     stroke: "white",
-                    //     y1: 0,
-                    //     y2: d3.max(dataToPlot, (d) => d.speed) + 1
-                    // }),
-                    // Plot.text(scrubberData, {
-                    //     x: "rawdate",
-                    //     y: d3.max(dataToPlot, (d) => d.speed) + 1,
-                    //     text: (d) => d.speed.toFixed(0) + " km/h",
-                    //     fontSize: 12,
-                    //     dy: -5
-                    // }),
+                    Plot.dot(scrubberData, {
+                        x: "rawdate",
+                        y: "speed",
+                        stroke: "white",
+                        fill: "currentColor",
+                        // dy: -2
+                    }),
+                    Plot.ruleX([playLineString], {
+                        stroke: "white",
+                        y1: 0,
+                        y2: d3.max(data, (d) => d.speed) + 1
+                    }),
+                    Plot.text(scrubberData, {
+                        x: "rawdate",
+                        y: d3.max(data, (d) => d.speed) + 1,
+                        text: (d) => d.speed.toFixed(0) + " km/h",
+                        fontSize: 12,
+                        dy: -5
+                    }),
 
                     Plot.barY(data, { x: "rawdate", y: "speed" }),
                     Plot.vector(data, {
@@ -54,7 +57,7 @@ function WindChart({ width, height, data, inputVar }) {
                         text: (d) => d.speed.toFixed(0),
                         fontSize: 12
                     }),
-                    Plot.text(data, { x: "rawdate", y: -1.1, text: "gust", fontSize: 8 }),
+                    // Plot.text(data, { x: "rawdate", y: -1.1, text: "gust", fontSize: 8 }),
 
                     Plot.axisX({ x: (y) => "" })
                 ],
@@ -63,7 +66,7 @@ function WindChart({ width, height, data, inputVar }) {
             });
         ref.current.append(dotPlot);
         return () => dotPlot.remove();
-    }, [data]);
+    }, [data,playLine]);
 
 
     return (

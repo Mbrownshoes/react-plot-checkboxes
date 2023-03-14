@@ -7,8 +7,9 @@ function App() {
 
 
   return (
-    <div className="App">
-      <h1>plot ss data</h1>
+    
+    <div className="App" >
+      {/* <h1>plot ss data</h1> */}
       {/* {loading && <div>loading</div>} */}
       {<MyPlot
       />}
