@@ -43,8 +43,6 @@ function MyPlot() {
             48.404038, -124.118013
         );
 
-        const toHours = (d) =>
-            d.getHours() + d.getMinutes() / 60 + d.getSeconds() / 3600;
 
         return {
             date,
